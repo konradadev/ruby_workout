@@ -48,6 +48,8 @@ def caesar_cipher(message, key)
       else
         encoded_message_array.push(char.ord - key)
       end
+    else
+      encoded_message_array.push(char.ord)
     end
   end
   encoded_message_array.map! {|char_ord| char_ord = char_ord.chr}
