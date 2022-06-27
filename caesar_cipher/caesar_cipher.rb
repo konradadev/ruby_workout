@@ -26,31 +26,33 @@ def caesar_cipher(message, key)
   message_array = message.split('')
   encoded_message_array = []
   message_array.each do |char|
+    final_char = nil
+    range_start = nil
+    range_end = nil
+    skip = false
     if is_lower_case?(char)
-      unless (char.ord - key).between?(97, 122)
-        if key > 25
-          char = get_char_from_big_key(key, char.ord, 97, 122)
-        else
-          char = get_char_from_small_key(key, char.ord, 97, 122)
-        end
-        encoded_message_array.push(char)
-      else
-        encoded_message_array.push(char.ord - key)
-      end
+      range_start = 97
+      range_end = 122
     elsif is_upper_case?(char)
-      unless (char.ord - key).between?(65, 90)
-        if key > 25
-          char = get_char_from_big_key(key, char.ord, 65, 90)
-        else
-          char = get_char_from_small_key(key, char.ord, 65, 90)
-        end
-        encoded_message_array.push(char)
-      else
-        encoded_message_array.push(char.ord - key)
-      end
+      range_start = 65
+      range_end = 90
     else
-      encoded_message_array.push(char.ord)
+      final_char = char.ord
+      skip = true
     end
+
+    if skip == false
+      unless (char.ord - key).between?(range_start, range_end)
+        if key > 25
+          final_char = get_char_from_big_key(key, char.ord, range_start, range_end)
+        else
+          final_char = get_char_from_small_key(key, char.ord, range_start, range_end)
+        end
+      else
+        final_char = char.ord - key
+      end
+    end
+    encoded_message_array.push(final_char)
   end
   encoded_message_array.map! {|char_ord| char_ord = char_ord.chr}
   encoded_message = encoded_message_array.join('')
