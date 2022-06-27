@@ -38,14 +38,16 @@ def caesar_cipher(message, key)
         encoded_message_array.push(char.ord - key)
       end
     elsif is_upper_case?(char)
-      if key > 25
-        char = get_char_from_big_key(key, char.ord, 65, 90)
+      unless (char.ord - key).between?(65, 90)
+        if key > 25
+          char = get_char_from_big_key(key, char.ord, 65, 90)
+        else
+          char = get_char_from_small_key(key, char.ord, 65, 90)
+        end
         encoded_message_array.push(char)
       else
         encoded_message_array.push(char.ord - key)
       end
-    else
-      encoded_message_array.push(char.ord)
     end
   end
   encoded_message_array.map! {|char_ord| char_ord = char_ord.chr}
