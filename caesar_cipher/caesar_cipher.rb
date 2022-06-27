@@ -6,15 +6,21 @@ def is_upper_case?(char)
   char.ord.between?(65, 90)
 end
 
-def get_char_from_big_key(key, char, range_start, range_end)
-  key_rest = key % 26
-  if char - key_rest < range_start
-    key_rest -= range_start
-    char = range_end - key_rest
+def get_char_from_big_key(key, char_ord, range_start, range_end)
+  key_rest = key % 25
+  if (char_ord - key_rest).between?(range_start, range_end)
+    key_rest = range_start
+    char_ord = range_end - key_rest
   else
-    char = char - key_rest
+    char_ord = char_ord - key_rest
   end
-  char
+  char_ord
+end
+
+def get_char_from_small_key(key, char_ord, range_start, range_end)
+  key_rest = key - (char_ord - range_start) - 1
+  char_ord = range_end - key_rest
+  char_ord
 end
 
 def caesar_cipher(message, key)
@@ -22,8 +28,12 @@ def caesar_cipher(message, key)
   encoded_message_array = []
   message_array.each do |char|
     if is_lower_case?(char)
-      if key > 25
-        char = get_char_from_big_key(key, char.ord, 97, 122)
+      unless (char.ord - key).between?(97, 122)
+        if key > 25
+          char = get_char_from_big_key(key, char.ord, 97, 122)
+        else
+          char = get_char_from_small_key(key, char.ord, 97, 122)
+        end
         encoded_message_array.push(char)
       else
         encoded_message_array.push(char.ord - key)
