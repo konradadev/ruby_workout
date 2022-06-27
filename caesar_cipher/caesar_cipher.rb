@@ -7,12 +7,11 @@ def is_upper_case?(char)
 end
 
 def get_char_from_big_key(key, char_ord, range_start, range_end)
-  key_rest = key % 25
+  key_rest = key % 26
   if (char_ord - key_rest).between?(range_start, range_end)
-    key_rest = range_start
-    char_ord = range_end - key_rest
-  else
     char_ord = char_ord - key_rest
+  else
+    char_ord = get_char_from_small_key(key_rest, char_ord, range_start, range_end)
   end
   char_ord
 end
