@@ -8,8 +8,15 @@ def simplify(array_of_strings)
 end
 
 def substrings(string, dictionary)
-  string_array = simplify(string.split)
-  puts string_array
+  string_insensitive = string.downcase
+  hash = dictionary.reduce(Hash.new(0)) do |result, word|
+    result[word] = string_insensitive.scan(word).length
+    result
+  end
+  puts hash
 end
 
 substrings(string, dictionary1)
+substrings(string, dictionary2)
+#works with a single word as well
+substrings("how", dictionary1)
