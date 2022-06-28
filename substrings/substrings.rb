@@ -3,10 +3,6 @@ dictionary2 = ["above","up","stop","standing","bald","now","hello","is","you","h
 
 string = "Howdy partner, sit down! How's it going? Is your enemy still around? Will you go up and above anyone else to stop him?"
 
-def simplify(array_of_strings)
-  return array_of_strings.map { |word| word.tr('^A-Za-z', '').downcase }
-end
-
 def substrings(string, dictionary)
   string_insensitive = string.downcase
   hash = dictionary.reduce(Hash.new(0)) do |result, word|
