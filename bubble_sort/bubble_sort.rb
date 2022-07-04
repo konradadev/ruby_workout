@@ -1,5 +1,6 @@
 def bubble_sort(unsorted_array)
   for i in 1..unsorted_array.length
+    swaps = 0
     unsorted_array.each_with_index do |number, index|
       unless index == unsorted_array.length-1
         next_number = unsorted_array[index+1]
@@ -7,8 +8,12 @@ def bubble_sort(unsorted_array)
           helper = number
           unsorted_array[index] = next_number
           unsorted_array[index+1] = helper
+          swaps += 1
         end
       end
+    end
+    if swaps == 0
+      return unsorted_array
     end
   end
   return unsorted_array
